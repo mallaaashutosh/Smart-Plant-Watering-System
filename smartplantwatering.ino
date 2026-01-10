@@ -10,8 +10,8 @@
 #include <DHT.h>
 
 /******************** WIFI DETAILS ********************/
-char ssid[] = "Informatics College";
-char pass[] = "INf0RM@TICs2025";
+//char ssid[] = "";
+//char pass[] = "";
 
 /******************** PIN DEFINITIONS ********************/
 #define DHTPIN     4
