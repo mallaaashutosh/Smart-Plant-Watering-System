@@ -1,2 +1,2 @@
 # Smart-Plant-Watering-System
-smart plant watering using cpp
+In this IoT project, a smart plant watering system is developed with the objective of supplying water to plants only when the soil moisture level is low. This system minimizes manual intervention while promoting optimal plant growth. The project utilizes components such as an ESP32 microcontroller, relay module, soil moisture sensor, water pump and a DHT22 sensor. Additionally, the system allows users to monitor soil moisture levels remotely using a smartphone through Blynk.
