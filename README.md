@@ -57,7 +57,7 @@
 4. Finally deploy
 
 
-<div align="center">
+<div align="center" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
 
 [![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://www.arduino.cc/)
 [![Node-RED](https://img.shields.io/badge/Node--RED-8BE35A?style=for-the-badge&logo=nodered&logoColor=black)](https://nodered.org/)
