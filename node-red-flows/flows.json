@@ -1,0 +1,291 @@
+[
+    {
+        "id": "a7cc7628901d22a0",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b2bd1db27c2fe5f1",
+        "type": "mqtt in",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "topic": "plant/soil",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c07c7ce95a27fd20",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "5abf0d9173aa0b54"
+            ]
+        ]
+    },
+    {
+        "id": "54a122377fd92903",
+        "type": "mqtt in",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "topic": "plant/temp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c07c7ce95a27fd20",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "5e193ddb87f1090c"
+            ]
+        ]
+    },
+    {
+        "id": "a57dafd06af0a997",
+        "type": "mqtt in",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "topic": "plant/hum",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c07c7ce95a27fd20",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 380,
+        "y": 260,
+        "wires": [
+            [
+                "04d24f811eb8aab9"
+            ]
+        ]
+    },
+    {
+        "id": "b7775c66e4739a5e",
+        "type": "mqtt in",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "topic": "plant/pump_state",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c07c7ce95a27fd20",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 400,
+        "y": 340,
+        "wires": [
+            [
+                "4fe7efe24f8c1410"
+            ]
+        ]
+    },
+    {
+        "id": "5abf0d9173aa0b54",
+        "type": "ui_gauge",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "group": "a5996306cfa1f07a",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Soil Moisture",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 670,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5e193ddb87f1090c",
+        "type": "ui_gauge",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "group": "16c0115014852a7e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature ",
+        "label": " °C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 690,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "04d24f811eb8aab9",
+        "type": "ui_gauge",
+        "z": "a7cc7628901d22a0",
+        "name": "",
+        "group": "0456e323d4621b8e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity ",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 680,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4fe7efe24f8c1410",
+        "type": "ui_text",
+        "z": "a7cc7628901d22a0",
+        "group": "0529f7bba58fce2d",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Pump Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "{{msg.payload === \"ON\" ? \"<span style='color:#00ff00; font-size:28px; font-weight:bold;'>PUMP ON</span>\" : \"<span style='color:#888888; font-size:28px;'>Pump OFF</span>\"}}",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 710,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c07c7ce95a27fd20",
+        "type": "mqtt-broker",
+        "name": "Mosquitto",
+        "broker": "broker.mqttdashboard.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a5996306cfa1f07a",
+        "type": "ui_group",
+        "name": "soil",
+        "tab": "68daa1d4689b01c3",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "16c0115014852a7e",
+        "type": "ui_group",
+        "name": "temperature",
+        "tab": "68daa1d4689b01c3",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0456e323d4621b8e",
+        "type": "ui_group",
+        "name": "humidity",
+        "tab": "68daa1d4689b01c3",
+        "order": 4,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0529f7bba58fce2d",
+        "type": "ui_group",
+        "name": "pump state",
+        "tab": "68daa1d4689b01c3",
+        "order": 4,
+        "disp": true,
+        "width": "18",
+        "collapse": false,
+        "className": "{{msg.payload === \"ON\" ? \"<span style='color:#00ff00; font-size:28px; font-weight:bold;'>PUMP ON</span>\" : \"<span style='color:#888888; font-size:28px;'>Pump OFF</span>\"}}"
+    },
+    {
+        "id": "68daa1d4689b01c3",
+        "type": "ui_tab",
+        "name": "plant monitor",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e5d650c97497320b",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
