@@ -2,8 +2,8 @@
 
 **An automatic plant watering system using ESP32, soil moisture sensor, DHT22, and relay pump control — with real-time monitoring via Node-RED dashboard.**
 
-![Project Overview](https://via.placeholder.com/800x400.png?text=Smart+Plant+Watering+System)  
-*(Replace this with your own photo/screenshot of the hardware + dashboard)*
+![Project Overview] 
+
 
 ## ✨ Features
 
@@ -20,8 +20,9 @@
 
 ## 📸 Dashboard Preview
 
-![Dashboard](https://via.placeholder.com/800x450.png?text=Node-RED+Dashboard+with+Gauges)  
-*Three-sensor gauges + pump status indicator*
+![Dashboard]<img width="1920" height="1150" alt="Screenshot (165)" src="https://github.com/user-attachments/assets/d2913f0b-7e98-4d07-8fc4-5b65862467a9" />
+
+
 
 ## 🛠️ Hardware Used
 
@@ -45,9 +46,9 @@
 ## 🚀 How It Works
 
 1. ESP32 reads soil moisture, temperature, and humidity every 3 seconds
-2. If soil moisture < 35% → pump turns ON
-3. If soil moisture > 45% → pump turns OFF
+2. If soil moisture < 40% → pump turns ON
+3. If soil moisture > 40% → pump turns OFF
 4. All values are published to MQTT topics
 5. Node-RED subscribes → displays beautiful gauges & status
 
-## 📊 Dashboard Layout
+
