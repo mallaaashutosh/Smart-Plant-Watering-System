@@ -1,5 +1,53 @@
-# Smart-Plant-Watering-System
-A simple project done using CPP with the main objective of supplying water to plants only when the soil moisture level is low. This system minimizes manual intervention while promoting optimal plant growth.
+# 🌱 Smart Plant Watering System (IoT)
 
-## Overview
-The plant watering system offers an automated and organized approach to watering plants by using multiple sensors. The Blynk application is used to monitor soil moisture levels in real time. The ESP32 microcontroller serves as the core component of the system, providing built-in Wi-Fi and Bluetooth connectivity. Additional sensors such as the DHT22 sensor and soil moisture sensor are integrated to collect environmental data. A relay module acts as an actuator to control the water pump, which is powered by two 12V batteries. The pump can be operated either manually or through the Blynk application. When the soil becomes dry, the soil moisture sensor detects the moisture level, while the DHT22 sensor measures temperature and humidity. If the soil moisture value exceeds the predefined threshold of 2000, the system automatically activates the pump to water the plant.
+**An automatic plant watering system using ESP32, soil moisture sensor, DHT22, and relay pump control — with real-time monitoring via Node-RED dashboard.**
+
+![Project Overview](https://via.placeholder.com/800x400.png?text=Smart+Plant+Watering+System)  
+*(Replace this with your own photo/screenshot of the hardware + dashboard)*
+
+## ✨ Features
+
+- **Automatic watering** based on soil moisture level (threshold + hysteresis to avoid rapid on/off)
+- Real-time monitoring of:
+  - Soil moisture (%)
+  - Temperature (°C)
+  - Humidity (%)
+  - Pump state (ON/OFF)
+- Beautiful **Node-RED dashboard** with gauges and status indicators
+- MQTT communication using public broker (broker.mqttdashboard.com)
+- Clean, well-documented Arduino code for ESP32
+- Easy to extend (add manual control, alerts, history chart, etc.)
+
+## 📸 Dashboard Preview
+
+![Dashboard](https://via.placeholder.com/800x450.png?text=Node-RED+Dashboard+with+Gauges)  
+*Three-sensor gauges + pump status indicator*
+
+## 🛠️ Hardware Used
+
+| Component              | Model / Description                  | Pin on ESP32 |
+|------------------------|--------------------------------------|--------------|
+| Microcontroller        | ESP32 DevKit                         | —            |
+| Soil Moisture Sensor   | YL-38 / Capacitive (AO analog)       | GPIO 34      |
+| Temperature & Humidity | DHT22                                | GPIO 4       |
+| Water Pump Relay       | 5V Relay Module (active LOW)         | GPIO 18      |
+
+## 🔌 Software Stack
+
+- **Firmware**: Arduino IDE + ESP32 board support
+- **Libraries**:
+  - WiFi.h
+  - PubSubClient (MQTT)
+  - DHT sensor library
+- **Monitoring & UI**: Node-RED + node-red-dashboard
+- **Communication**: MQTT over WiFi (public broker)
+
+## 🚀 How It Works
+
+1. ESP32 reads soil moisture, temperature, and humidity every 3 seconds
+2. If soil moisture < 35% → pump turns ON
+3. If soil moisture > 45% → pump turns OFF
+4. All values are published to MQTT topics
+5. Node-RED subscribes → displays beautiful gauges & status
+
+## 📊 Dashboard Layout
