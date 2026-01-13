@@ -55,3 +55,6 @@
 2. Upload the ESP32 firmware (update WiFi credentials)
 3. Import Node-RED flow (or build it manually)
 4. Finally deploy
+
+[![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://www.arduino.cc/)
+[![Node-RED](https://img.shields.io/badge/Node--RED-8BE35A?style=for-the-badge&logo=nodered&logoColor=black)](https://nodered.org/)
