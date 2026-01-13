@@ -1,120 +1,134 @@
-/******************** BLYNK DETAILS ********************/
-#define BLYNK_TEMPLATE_ID "TMPL64qbJ_snS"
-#define BLYNK_TEMPLATE_NAME "Smart Plant Watering"
-#define BLYNK_AUTH_TOKEN "H0fi1i7uPHiptx2jC0ohSxP7DmJYYbNq"
-
-#define BLYNK_PRINT Serial
-
-#include <WiFi.h>
-#include <BlynkSimpleEsp32.h>
-#include <DHT.h>
-
 /******************** WIFI DETAILS ********************/
-//char ssid[] = "";
-//char pass[] = "";
+char ssid[] = ""; //include your wifi ssid
+char pass[] = ""; //include your wifi password
+
+/******************** MQTT DETAILS ********************/
+#include <WiFi.h>
+#include <PubSubClient.h> 
+const char* mqtt_server = "broker.mqttdashboard.com";
+const int mqtt_port = 1883;
 
 /******************** PIN DEFINITIONS ********************/
 #define DHTPIN     4
 #define DHTTYPE    DHT22
 #define SOIL_PIN   34          // YL-38 AO
-#define RELAY_PIN  5           // Relay IN
+#define RELAY_PIN  18          // Relay IN1 (Channel 1)
 
-#define RELAY_ON   LOW         // Active LOW relay
+/******************** RELAY LOGIC ********************/
+#define RELAY_ON   LOW         // Active-LOW relay
 #define RELAY_OFF  HIGH
 
 /******************** OBJECTS ********************/
+#include <DHT.h>
 DHT dht(DHTPIN, DHTTYPE);
-BlynkTimer timer;
+WiFiClient espClient;
+PubSubClient client(espClient);
+unsigned long lastMsg = 0;
 
 /******************** VARIABLES ********************/
-bool manualPump = false;
-int soilThreshold = 40;        // % below this → pump ON
+bool autoPump   = false;
+const int soilThreshold = 40;  // %
+const int hysteresis    = 5;   // prevents relay chatter
 
-/******************** BLYNK BUTTON ********************/
-BLYNK_WRITE(V0) {              // Button widget (Switch)
-  manualPump = param.asInt();
-  Serial.print("Manual Pump: ");
-  Serial.println(manualPump ? "ON" : "OFF");
-}
-
-/******************** SENSOR FUNCTION ********************/
+/******************** SENSOR + CONTROL ********************/
 void readSensors() {
-
-  // -------- SOIL MOISTURE --------
+  /* -------- Soil Moisture -------- */
   int soilRaw = analogRead(SOIL_PIN);
-  Serial.print("Raw Soil Sensor: ");
-  Serial.println(soilRaw);
-
-  // Calibrated mapping for YL-69 + ESP32
-  // Air ≈ 3000 | Wet soil ≈ 900
   int soilPercent = map(soilRaw, 3000, 900, 0, 100);
   soilPercent = constrain(soilPercent, 0, 100);
 
-  // -------- DHT22 --------
+  /* -------- Temperature & Humidity -------- */
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
-
   if (isnan(humidity) || isnan(temperature)) {
-    Serial.println(" Failed to read DHT22");
+    Serial.println(" DHT22 read failed");
     return;
   }
 
-  // -------- SEND TO BLYNK --------
-  Blynk.virtualWrite(V1, soilPercent);   // Soil %
-  Blynk.virtualWrite(V2, temperature);   // Temperature °C
-  Blynk.virtualWrite(V3, humidity);      // Humidity %
-
-  // -------- PUMP CONTROL --------
-  if (manualPump) {
-    digitalWrite(RELAY_PIN, RELAY_ON);
-    Serial.println("Pump: MANUAL ON");
+  /* -------- AUTO LOGIC ONLY -------- */
+  if (soilPercent < soilThreshold - hysteresis) {
+    autoPump = true;
   }
-  else if (soilPercent < soilThreshold) {
-    digitalWrite(RELAY_PIN, RELAY_ON);
-    Serial.println("Pump: AUTO ON (Dry Soil)");
-  }
-  else {
-    digitalWrite(RELAY_PIN, RELAY_OFF);
-    Serial.println("Pump: OFF");
+  else if (soilPercent > soilThreshold + hysteresis) {
+    autoPump = false;
   }
 
-  // -------- DEBUG --------
-  Serial.print("Soil Moisture: ");
-  Serial.print(soilPercent);
-  Serial.println(" %");
+  /* -------- RELAY CONTROL -------- */
+  bool pumpRunning = autoPump;
+  digitalWrite(RELAY_PIN, pumpRunning ? RELAY_ON : RELAY_OFF);
 
-  Serial.print("Temperature: ");
-  Serial.print(temperature);
-  Serial.println(" °C");
+  /* -------- MQTT PUBLISH -------- */
+  client.publish("plant/soil", String(soilPercent).c_str());
+  client.publish("plant/temp", String(temperature, 1).c_str());
+  client.publish("plant/hum", String(humidity, 1).c_str());
+  client.publish("plant/pump_state", pumpRunning ? "ON" : "OFF");
 
-  Serial.print("Humidity: ");
-  Serial.print(humidity);
-  Serial.println(" %");
-  Serial.println("-----------------------------");
+  /* -------- SERIAL DEBUG -------- */
+  Serial.println("----------- STATUS -----------");
+  Serial.print("Soil Raw       : "); Serial.println(soilRaw);
+  Serial.print("Soil %         : "); Serial.println(soilPercent);
+  Serial.print("Temp           : "); Serial.print(temperature); Serial.println(" °C");
+  Serial.print("Humidity       : "); Serial.print(humidity); Serial.println(" %");
+  Serial.print("Auto Pump      : "); Serial.println(autoPump ? "ON" : "OFF");
+  Serial.print("Pump Running   : "); Serial.println(pumpRunning ? "ON" : "OFF");
+  Serial.print("Relay Pin      : "); Serial.println(digitalRead(RELAY_PIN));
+  Serial.println("-------------------------------\n");
+}
+
+/******************** RECONNECT ********************/
+void reconnect() {
+  String clientId = "PlantESP_" + String(ESP.getEfuseMac(), HEX);
+  
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection as [");
+    Serial.print(clientId);
+    Serial.print("]... ");
+
+    if (client.connect(clientId.c_str())) {
+      Serial.println("connected");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" → retry in 5s");
+      delay(5000);
+    }
+  }
 }
 
 /******************** SETUP ********************/
 void setup() {
   Serial.begin(9600);
-
-  // IMPORTANT FOR ESP32 ADC
   analogSetAttenuation(ADC_11db);
-
+  
   pinMode(RELAY_PIN, OUTPUT);
-  digitalWrite(RELAY_PIN, RELAY_OFF);
+  digitalWrite(RELAY_PIN, RELAY_OFF);   // Start OFF - important!
 
   dht.begin();
 
-  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  // Connect WiFi
+  WiFi.begin(ssid, pass);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("WiFi connected");
 
-  timer.setInterval(3000L, readSensors);
-
-  Serial.println("Smart Plant Watering System Started");
+  // Setup MQTT
+  client.setServer(mqtt_server, mqtt_port);
+  
+  Serial.println("Smart Plant Watering System Started (Auto mode only)");
 }
 
 /******************** LOOP ********************/
 void loop() {
-  Blynk.run();
-  timer.run();
-}
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
 
+  // Run sensor reading every 3 seconds
+  if (millis() - lastMsg > 3000) {
+    lastMsg = millis();
+    readSensors();
+  }
+}
