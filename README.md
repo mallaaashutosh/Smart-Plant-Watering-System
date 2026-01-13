@@ -2,8 +2,6 @@
 
 **An automatic plant watering system using ESP32, soil moisture sensor, DHT22, and relay pump control — with real-time monitoring via Node-RED dashboard.**
 
-![Project Overview] 
-
 
 ##  Features
 
