@@ -49,4 +49,9 @@
 4. All values are published to MQTT topics
 5. Node-RED subscribes → displays beautiful gauges & status
 
+##  How to Build Your Own
 
+1. Wire the hardware as per pin definitions
+2. Upload the ESP32 firmware (update WiFi credentials)
+3. Import Node-RED flow (or build it manually)
+4. Finally deploy
