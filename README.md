@@ -3,6 +3,17 @@
 **An automatic plant watering system using ESP32, soil moisture sensor, DHT22, and relay pump control — with real-time monitoring via Node-RED dashboard.**
 
 
+<div align="center" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
+
+[![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://www.arduino.cc/)
+[![Node-RED](https://img.shields.io/badge/Node--RED-8BE35A?style=for-the-badge&logo=nodered&logoColor=black)](https://nodered.org/)
+[![ESP32](https://img.shields.io/badge/ESP32-000000?style=for-the-badge&logo=espressif&logoColor=white)](https://www.espressif.com/)
+[![MQTT](https://img.shields.io/badge/MQTT-3C6E9C?style=for-the-badge&logo=mqtt&logoColor=white)](https://mqtt.org/)
+
+</div>
+
+
+
 ## ✨ Features
 
 - **Automatic watering** based on soil moisture level (threshold + hysteresis to avoid rapid on/off)
@@ -56,12 +67,3 @@
 3. Import Node-RED flow (or build it manually)
 4. Finally deploy
 
-
-<div align="center" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 20px 0;">
-
-[![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://www.arduino.cc/)
-[![Node-RED](https://img.shields.io/badge/Node--RED-8BE35A?style=for-the-badge&logo=nodered&logoColor=black)](https://nodered.org/)
-[![ESP32](https://img.shields.io/badge/ESP32-000000?style=for-the-badge&logo=espressif&logoColor=white)](https://www.espressif.com/)
-[![MQTT](https://img.shields.io/badge/MQTT-3C6E9C?style=for-the-badge&logo=mqtt&logoColor=white)](https://mqtt.org/)
-
-</div>
