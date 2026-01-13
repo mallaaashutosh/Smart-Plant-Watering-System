@@ -1,4 +1,4 @@
-# 🌱 Smart Plant Watering System (IoT)
+#  Smart Plant Watering System (IoT)
 
 **An automatic plant watering system using ESP32, soil moisture sensor, DHT22, and relay pump control — with real-time monitoring via Node-RED dashboard.**
 
@@ -14,7 +14,7 @@
 
 
 
-## ✨ Features
+##  Features
 
 - **Automatic watering** based on soil moisture level (threshold + hysteresis to avoid rapid on/off)
 - Real-time monitoring of:
@@ -27,13 +27,13 @@
 - Clean, well-documented Arduino code for ESP32
 - Easy to extend (add manual control, alerts, history chart, etc.)
 
-## 📸 Dashboard Preview
+##  Dashboard Preview
 
 <img width="1920" height="1150" alt="Screenshot (165)" src="https://github.com/user-attachments/assets/d2913f0b-7e98-4d07-8fc4-5b65862467a9" />
 
 *Three-sensor gauges + pump status indicator*
 
-## 🛠️ Hardware Used
+##  Hardware Used
 
 | Component              | Model / Description                  | Pin on ESP32 |
 |------------------------|--------------------------------------|--------------|
@@ -42,7 +42,7 @@
 | Temperature & Humidity | DHT22                                | GPIO 4       |
 | Water Pump Relay       | 5V Relay Module (active LOW)         | GPIO 18      |
 
-## 🔌 Software Stack
+##  Software Stack
 
 - **Firmware**: Arduino IDE + ESP32 board support
 - **Libraries**:
@@ -52,7 +52,7 @@
 - **Monitoring & UI**: Node-RED + node-red-dashboard
 - **Communication**: MQTT over WiFi (public broker)
 
-## 🚀 How It Works
+##  How It Works
 
 1. ESP32 reads soil moisture, temperature, and humidity every 3 seconds
 2. If soil moisture < 40% → pump turns ON
@@ -60,7 +60,7 @@
 4. All values are published to MQTT topics
 5. Node-RED subscribes → displays beautiful gauges & status
 
-## 🛠️ How to Build Your Own
+##  How to Build Your Own
 
 1. Wire the hardware as per pin definitions
 2. Upload the ESP32 firmware (update WiFi credentials)
